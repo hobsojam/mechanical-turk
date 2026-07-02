@@ -13,7 +13,7 @@ interface PendingQuestion extends QuestionSummary {
   reject: (reason: Error) => void;
 }
 
-class QuestionQueue extends EventEmitter {
+export class QuestionQueue extends EventEmitter {
   private readonly pending = new Map<string, PendingQuestion>();
 
   add(question: string, agentId: string): Promise<string> {
