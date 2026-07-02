@@ -11,7 +11,7 @@ import { queue } from "./queue.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-const app = express();
+export const app = express();
 app.use(express.json());
 // Serve HUMAN.md for the in-console help modal
 app.get("/human.md", async (_req, res) => {
@@ -25,8 +25,8 @@ app.get("/human.md", async (_req, res) => {
 
 app.use(express.static(path.join(__dirname, "../public")));
 
-const httpServer = createServer(app);
-const wss = new WebSocketServer({ server: httpServer });
+export const httpServer = createServer(app);
+export const wss = new WebSocketServer({ server: httpServer });
 
 function broadcast(data: object): void {
   const msg = JSON.stringify(data);
@@ -123,8 +123,12 @@ wss.on("connection", (ws) => {
   });
 });
 
-const PORT = Number(process.env.PORT ?? 3000);
-httpServer.listen(PORT, () => {
-  console.log(`Mechanical Turk   http://localhost:${PORT}`);
-  console.log(`MCP endpoint      http://localhost:${PORT}/mcp`);
-});
+export function startServer(port = Number(process.env.PORT ?? 3000)): void {
+  httpServer.listen(port, () => {
+    console.log(`Mechanical Turk   http://localhost:${port}`);
+    console.log(`MCP endpoint      http://localhost:${port}/mcp`);
+  });
+}
+
+const entryPoint = process.argv[1] ? path.resolve(process.argv[1]) : undefined;
+if (entryPoint === fileURLToPath(import.meta.url)) startServer();
