@@ -1,5 +1,5 @@
-import { EventEmitter } from "events";
-import { randomUUID } from "crypto";
+import { EventEmitter } from "node:events";
+import { randomUUID } from "node:crypto";
 
 export interface QuestionSummary {
   id: string;
@@ -14,7 +14,7 @@ interface PendingQuestion extends QuestionSummary {
 }
 
 class QuestionQueue extends EventEmitter {
-  private pending = new Map<string, PendingQuestion>();
+  private readonly pending = new Map<string, PendingQuestion>();
 
   add(question: string, agentId: string): Promise<string> {
     return new Promise((resolve, reject) => {

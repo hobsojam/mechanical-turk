@@ -1,11 +1,11 @@
 import express from "express";
-import { createServer } from "http";
+import { createServer } from "node:http";
 import { WebSocketServer, WebSocket } from "ws";
 import { StreamableHTTPServerTransport } from "@modelcontextprotocol/sdk/server/streamableHttp.js";
-import { randomUUID } from "crypto";
-import { fileURLToPath } from "url";
-import { readFile } from "fs/promises";
-import path from "path";
+import { randomUUID } from "node:crypto";
+import { fileURLToPath } from "node:url";
+import { readFile } from "node:fs/promises";
+import path from "node:path";
 import { createMcpServer } from "./mcp.js";
 import { queue } from "./queue.js";
 
